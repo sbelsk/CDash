@@ -38,6 +38,8 @@ public/main.js
 .vagrant
 /vendor/
 yarn-error.log
+*.swp
+*.swo
 
 # Files generated for Vue
 app/cdash/public/js/3rdparty.js
