@@ -32,12 +32,14 @@ class ValidateXml extends Command
         $has_skipped = false;
         foreach ($xml_files_args as $input_xml_file) {
             // determine the file type by peeking at its contents
-            $xml_file_handle = fopen($input_xml_file, 'r');
-            if ($xml_file_handle === false) {
-                $this->error("ERROR: Could not open file: '{$input_xml_file}'");
-                $has_errors = true;
+            try {
+                $xml_file_handle = fopen($input_xml_file, 'r');
+            } catch (Exception $e) {
+                $this->error("ERROR: ${e}: '{$input_xml_file}'");
+                $has_skipped = true;
                 continue;
             }
+
             try {
                 $xml_schema = SubmissionUtils::get_xml_type($xml_file_handle, $input_xml_file)['xml_schema'];
             } catch (CDashXMLValidationException $e) {
